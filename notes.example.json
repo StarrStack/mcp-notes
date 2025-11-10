@@ -1,0 +1,31 @@
+{
+  "tag_schema": {
+    "category": [
+      "work",
+      "personal",
+      "learning"
+    ],
+    "type": [
+      "project",
+      "idea",
+      "reference",
+      "todo",
+      "note"
+    ],
+    "priority": [
+      "active",
+      "soon",
+      "someday",
+      "eventually",
+      "maybe",
+      "not-actionable"
+    ],
+    "topics": [
+      "mcp",
+      "ai",
+      "coding",
+      "design"
+    ]
+  },
+  "notes": []
+}

@@ -1,0 +1,2 @@
+# Python 3.10 or higher required
+mcp>=1.0.0
