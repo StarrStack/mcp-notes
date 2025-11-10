@@ -252,4 +252,4 @@ Potential improvements for future versions:
 
 ## License
 
-MIT License - feel free to modify and extend this server for your needs.
+GPL-3.0 License - feel free to modify and extend this server for your needs.
