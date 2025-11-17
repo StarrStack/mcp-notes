@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}{{ note.title }} - MCP Notes Wiki{% endblock %}
+
+{% block content %}
+<article class="note-detail">
+    <header class="note-header">
+        <h1>{{ note.title }}</h1>
+        <div class="note-meta">
+            {% if note.tags.category %}
+            <a href="/tag/category/{{ note.tags.category }}" class="tag tag-category">{{ note.tags.category }}</a>
+            {% endif %}
+            {% if note.tags.type %}
+            <a href="/tag/type/{{ note.tags.type }}" class="tag tag-type">{{ note.tags.type }}</a>
+            {% endif %}
+            {% if note.tags.priority %}
+            <a href="/tag/priority/{{ note.tags.priority }}" class="tag tag-priority">{{ note.tags.priority }}</a>
+            {% endif %}
+            {% for topic in note.tags.topics %}
+            <a href="/tag/topics/{{ topic }}" class="tag tag-topic">{{ topic }}</a>
+            {% endfor %}
+        </div>
+        <div class="note-timestamps">
+            <span>Created: {{ note.created|datetime }}</span>
+            <span>Updated: {{ note.updated|datetime }}</span>
+        </div>
+    </header>
+
+    <div class="note-content">
+        {{ content_html|safe }}
+    </div>
+
+    <footer class="note-footer">
+        {% if outgoing_links %}
+        <div class="links-section">
+            <h3>Links from this note</h3>
+            <ul class="links-list">
+                {% for link in outgoing_links %}
+                <li>[[{{ link }}]]</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if backlinks %}
+        <div class="backlinks-section">
+            <h3>{{ backlinks|length }} note(s) link here</h3>
+            <ul class="backlinks-list">
+                {% for backlink in backlinks %}
+                <li>
+                    <a href="/note/{{ backlink.id }}">{{ backlink.title }}</a>
+                    <span class="backlink-meta">
+                        {% if backlink.tags.category %}
+                        <span class="tag tag-category-sm">{{ backlink.tags.category }}</span>
+                        {% endif %}
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </footer>
+</article>
+{% endblock %}

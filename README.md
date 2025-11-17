@@ -11,6 +11,7 @@ A Model Context Protocol (MCP) server for managing personal notes with structure
 - **Dynamic Schema**: Add new tags to any dimension programmatically
 - **JSON Storage**: Simple file-based persistence with atomic writes
 - **MCP Integration**: Works natively with Claude Desktop via stdio transport
+- **Web Interface**: Browse your notes in a wiki-style web interface with backlinks and tag navigation
 
 ## Installation
 
@@ -205,13 +206,56 @@ Here are some natural ways to interact with your notes in Claude Desktop:
 - "Export note [id] to a markdown file"
 - "Export all notes to my Desktop"
 
+## Web Interface
+
+In addition to the MCP server integration with Claude Desktop, this project includes a Flask-based web interface for browsing your notes in a wiki-style format.
+
+### Features
+
+- **Wiki Links**: Create connections between notes using `[[Note Title]]` syntax
+- **Backlinks**: See which notes link to the current note
+- **Tag Navigation**: Browse notes by category, type, priority, and topics
+- **Search**: Full-text search across titles and content
+- **Recent Notes**: View recently updated notes
+- **Markdown Rendering**: Beautiful rendering with syntax highlighting for code blocks
+
+### Running the Web Interface
+
+1. **Install web dependencies** (if not already installed):
+   ```bash
+   python3.11 -m pip install -r requirements.txt
+   ```
+
+2. **Start the web server**:
+   ```bash
+   python3.11 web_server.py
+   ```
+
+3. **Open your browser**:
+   Visit http://localhost:5000
+
+The web interface reads directly from the same `notes.json` file used by the MCP server, so any changes made in Claude Desktop appear immediately when you refresh the page.
+
+For detailed information about the web interface features and usage, see [WIKI_README.md](WIKI_README.md).
+
 ## File Structure
 
 ```
 mcp-notes/
 ├── notes.json          # Data storage (auto-created)
 ├── server.py           # Main MCP server
+├── web_server.py       # Flask web interface
+├── templates/          # HTML templates for web UI
+│   ├── base.html
+│   ├── index.html
+│   ├── note.html
+│   ├── tag.html
+│   ├── search.html
+│   └── all.html
+├── static/
+│   └── style.css       # Web interface styling
 ├── README.md           # This file
+├── WIKI_README.md      # Web interface documentation
 └── requirements.txt    # Python dependencies
 ```
 
@@ -241,14 +285,23 @@ mcp-notes/
 ## Future Enhancements
 
 Potential improvements for future versions:
+
+**MCP Server**:
 - Full-text search within note content (search across markdown)
 - Import existing markdown files as notes
 - SQLite backend for better performance with large note collections
-- Note linking and backlinks
 - Note archiving/soft delete
 - Tag aliases and synonyms
 - Bulk operations (bulk update, bulk export with filters)
 - Note templates
+
+**Web Interface**:
+- Graph visualization of note connections
+- Live editing capabilities
+- Dark mode theme toggle
+- Advanced search with regex and tag combinations
+- Auto-complete for wiki links
+- Tag management UI
 
 ## License
 
