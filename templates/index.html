@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Home - MCP Notes Wiki{% endblock %}
+
+{% block content %}
+<div class="home-header">
+    <h1>Welcome to Your Notes Wiki</h1>
+    <p class="stats">{{ total_notes }} total notes</p>
+</div>
+
+<div class="content-grid">
+    <div class="main-content">
+        <h2>Recent Notes</h2>
+        {% if notes %}
+        <div class="notes-list">
+            {% for note in notes %}
+            <article class="note-card">
+                <h3><a href="/note/{{ note.id }}">{{ note.title }}</a></h3>
+                <div class="note-meta">
+                    {% if note.tags.category %}
+                    <a href="/tag/category/{{ note.tags.category }}" class="tag tag-category">{{ note.tags.category }}</a>
+                    {% endif %}
+                    {% if note.tags.type %}
+                    <a href="/tag/type/{{ note.tags.type }}" class="tag tag-type">{{ note.tags.type }}</a>
+                    {% endif %}
+                    {% if note.tags.priority %}
+                    <a href="/tag/priority/{{ note.tags.priority }}" class="tag tag-priority">{{ note.tags.priority }}</a>
+                    {% endif %}
+                    <span class="note-date">Updated: {{ note.updated|datetime }}</span>
+                </div>
+                <div class="note-preview">
+                    {{ note.content[:200] }}{% if note.content|length > 200 %}...{% endif %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="empty-state">No notes yet. Start creating some in Claude Desktop!</p>
+        {% endif %}
+    </div>
+
+    <aside class="sidebar">
+        <div class="tag-cloud">
+            <h3>Categories</h3>
+            <div class="tags">
+                {% for tag, count in tag_counts.category.items() %}
+                <a href="/tag/category/{{ tag }}" class="tag tag-category">
+                    {{ tag }} <span class="count">{{ count }}</span>
+                </a>
+                {% endfor %}
+            </div>
+
+            <h3>Types</h3>
+            <div class="tags">
+                {% for tag, count in tag_counts.type.items() %}
+                <a href="/tag/type/{{ tag }}" class="tag tag-type">
+                    {{ tag }} <span class="count">{{ count }}</span>
+                </a>
+                {% endfor %}
+            </div>
+
+            <h3>Priorities</h3>
+            <div class="tags">
+                {% for tag, count in tag_counts.priority.items() %}
+                <a href="/tag/priority/{{ tag }}" class="tag tag-priority">
+                    {{ tag }} <span class="count">{{ count }}</span>
+                </a>
+                {% endfor %}
+            </div>
+
+            {% if tag_counts.topics %}
+            <h3>Topics</h3>
+            <div class="tags">
+                {% for tag, count in tag_counts.topics.items() %}
+                <a href="/tag/topics/{{ tag }}" class="tag tag-topic">
+                    {{ tag }} <span class="count">{{ count }}</span>
+                </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </aside>
+</div>
+{% endblock %}

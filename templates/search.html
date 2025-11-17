@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Search: {{ query }} - MCP Notes Wiki{% endblock %}
+
+{% block content %}
+<div class="search-results">
+    <header class="page-header">
+        <h1>Search Results</h1>
+        <p class="subtitle">{{ results|length }} result(s) for "{{ query }}"</p>
+    </header>
+
+    {% if results %}
+    <div class="notes-list">
+        {% for note in results %}
+        <article class="note-card">
+            <h3><a href="/note/{{ note.id }}">{{ note.title }}</a></h3>
+            <div class="note-meta">
+                {% if note.tags.category %}
+                <a href="/tag/category/{{ note.tags.category }}" class="tag tag-category">{{ note.tags.category }}</a>
+                {% endif %}
+                {% if note.tags.type %}
+                <a href="/tag/type/{{ note.tags.type }}" class="tag tag-type">{{ note.tags.type }}</a>
+                {% endif %}
+                {% if note.tags.priority %}
+                <a href="/tag/priority/{{ note.tags.priority }}" class="tag tag-priority">{{ note.tags.priority }}</a>
+                {% endif %}
+                <span class="note-date">{{ note.updated|datetime }}</span>
+            </div>
+            <div class="note-preview">
+                {{ note.content[:200] }}{% if note.content|length > 200 %}...{% endif %}
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">No notes found matching "{{ query }}"</p>
+    {% endif %}
+</div>
+{% endblock %}

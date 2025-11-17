@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}All Notes - MCP Notes Wiki{% endblock %}
+
+{% block content %}
+<div class="all-notes">
+    <header class="page-header">
+        <h1>All Notes</h1>
+        <p class="subtitle">{{ notes|length }} note(s) alphabetically</p>
+    </header>
+
+    {% if notes %}
+    <div class="notes-list">
+        {% for note in notes %}
+        <article class="note-card">
+            <h3><a href="/note/{{ note.id }}">{{ note.title }}</a></h3>
+            <div class="note-meta">
+                {% if note.tags.category %}
+                <a href="/tag/category/{{ note.tags.category }}" class="tag tag-category">{{ note.tags.category }}</a>
+                {% endif %}
+                {% if note.tags.type %}
+                <a href="/tag/type/{{ note.tags.type }}" class="tag tag-type">{{ note.tags.type }}</a>
+                {% endif %}
+                {% if note.tags.priority %}
+                <a href="/tag/priority/{{ note.tags.priority }}" class="tag tag-priority">{{ note.tags.priority }}</a>
+                {% endif %}
+                {% for topic in note.tags.topics %}
+                <a href="/tag/topics/{{ topic }}" class="tag tag-topic">{{ topic }}</a>
+                {% endfor %}
+                <span class="note-date">{{ note.updated|datetime }}</span>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">No notes yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
